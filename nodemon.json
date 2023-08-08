@@ -1,0 +1,25 @@
+{
+    "restartable": "rs",
+    "ignore": [
+        "node_modules/**/*",
+        "package.json",
+        "package-lock.json",
+        "README.md",
+        ".git",
+        ".idea",
+        ".vscode",
+        ".DS_Store",
+        "sql/**/*",
+        "storage/**/*"
+    ],
+    "verbose": true,
+    "execMap": {
+        "js": "node --harmony"
+    },
+    "events": {},
+    "watch": ["components", "routes", "app.js", "config.js"],
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "ext": "js,mjs,json,css,scss,sass"
+}

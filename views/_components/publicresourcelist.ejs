@@ -1,0 +1,48 @@
+<div class="resourcelist-container" id="resourcelist-app">
+    <div class="resourcelist-header">
+        <h3 class="resourcelist-title">公共资源区</h3>
+        <div class="resourcelist-btn-group">
+            <button type="button" class="btn btn-outline-primary-link" id="resourcelist-btn" data-func="refresh"
+                @click="updateList">刷新</button>
+        </div>
+    </div>
+    <div class="resourcelist-table">
+        <table class="table" :class="files.length?'table-hover':''" id="resourcelist">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 10rem; text-align: left;">文件名</th>
+                    <th scope="col" style="width: 7.25rem; text-align: center;">大小</th>
+                    <th scope="col" style="width: 6.5rem; text-align: center;">分享时间</th>
+                    <th scope="col" style="width: 5rem; text-align: center;">上传者</th>
+                    <th scope="col" style="width: 11.5rem; text-align: left; padding-left: 0.5rem;">操作</th>
+                </tr>
+            </thead>
+            <tr v-if="!files.length">
+                <td colspan="5" style="font-style: italic; text-align: center;">没有分享的文件</td>
+            </tr>
+            <tr v-for="file in files" v-if="files.length" v-show="files.length" style="display: none;">
+                <td class="content-name" id="content-name" @mouseover="tooltipName">{{ file.name }}</td>
+                <td class="content-size" id="content-size">{{ file.size }}</td>
+                <td class="content-time" id="content-share-time">{{ file.shareTime }}</td>
+                <td class="content-username" id="content-uploader" @mouseover="tooltipTd">{{ file.uploader }}</td>
+                <td class="content-btn-group" id="content-operate">
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="download"
+                        @click="download(file.hash, file.uploader_uid)">下载</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="store"
+                        v-if="logged && !file.isYours && !file.isOriOwn && !file.isOwn"
+                        @click="store(file.hash, file.uploader_uid)">转存</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="cancel-store"
+                        v-if="logged && !file.isYours && !file.isOriOwn && file.isOwn"
+                        @click="cancelStore(file.hash, file.uploader_uid)">取消转存</button>
+                    <button type="button" class="btn btn-link link-primary disabled" id="op-btn"
+                        style="pointer-events: all;" v-if="logged && !file.isYours && file.isOriOwn"
+                        @mouseover="tooltipStoreOwn($event, file.ownFn)">转存</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="unshare"
+                        v-if="logged && file.isYours && !file.shared" @click="share(file.hash)">重新分享</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="unshare"
+                        v-if="logged && file.isYours && file.shared" @click="unshare(file.hash)">取消分享</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

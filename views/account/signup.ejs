@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= cur_title %> - <%= global_title %></title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/v/signup.css">
+    <script src="/v/signup.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card" style="width: 100%;">
+            <h5 class="card-header" style="text-align: center; user-select: none;">注　册</h5>
+            <div class="card-body">
+                <form id="signup">
+                    <div class="mb-3">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label for="inputUsername" class="form-label">用户名</label>
+                            <div class="form-text">
+                                由3-10位数字、字母或下划线、短杠组成
+                            </div>
+                        </div>
+                        <input type="text" name="username" class="form-control" id="inputUsername" maxlength="10">
+                    </div>
+
+                    <div class="mb-3">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label for="inputPassword" class="form-label">密码</label>
+                            <div class="form-text">
+                                由6-18位数字、字母或特殊字符组成
+                            </div>
+                        </div>
+                        <input type="password" name="password" class="form-control" id="inputPassword" maxlength="18">
+                    </div>
+                    <div class="mb-3">
+                        <div style="display: flex; justify-content: space-between;">
+                            <label for="confirmPassword" class="form-label">确认密码</label>
+                        </div>
+                        <input type="password" name="repassword" class="form-control" id="confirmPassword"
+                            maxlength="18">
+                    </div>
+                    <div style="text-align: end;">
+                        <span>已有账号？</span><a href="/account/signin" class="link-primary">现在登录</a>
+                        <span style="margin: 0 .6rem;"></span>
+                        <div class="btn-group" role="group">
+                            <button type="button" id="submit" class="btn btn-primary">注 册</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div style="display: none;" data-waf-info="<%= waf %>"></div>
+        <div class="tip-container">
+            <div class="alert alert-warning" role="alert" id="tip"></div>
+        </div>
+    </div>
+</body>
+
+</html>

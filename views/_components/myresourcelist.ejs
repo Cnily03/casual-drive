@@ -1,0 +1,46 @@
+<div class="resourcelist-container" id="resourcelist-app">
+    <div class="resourcelist-header">
+        <h3 class="resourcelist-title">我的资源</h3>
+        <div class="resourcelist-btn-group">
+            <button type="button" class="btn btn-outline-primary-link" id="resourcelist-btn" data-func="refresh"
+                @click="updateList">刷新</button>
+            <button type="button" class="btn btn-primary" id="resourcelist-btn" data-func="upload"
+                @click="clickUpload">上传文件</button>
+            <!-- 文件上传表单 -->
+            <input type="file" name="file" id="upload-file" style="display: none;" @change="uploadFile"
+                data-waf-info="<%= waf.waf_info %>" />
+        </div>
+    </div>
+    <div class="resourcelist-table">
+        <table class="table" :class="files.length?'table-hover':''" id="resourcelist">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 15rem; text-align: left;">文件名</th>
+                    <th scope="col" style="width: 7.25rem; text-align: center;">大小</th>
+                    <th scope="col" style="width: 6.5rem; text-align: center;">上传时间</th>
+                    <th scope="col" style="width: 14.5rem; text-align: left; padding-left: 0.5rem;">操作</th>
+                </tr>
+            </thead>
+            <tr v-if="!files.length">
+                <td colspan="4" style="font-style: italic; text-align: center;">没有文件</td>
+            </tr>
+            <tr v-for="file in files" v-if="files.length" v-show="files.length" style="display: none;">
+                <td class="content-name" id="content-name" @mouseover="tooltipTd">{{ file.name }}</td>
+                <td class="content-size" id="content-size">{{ file.size }}</td>
+                <td class="content-time" id="content-upload-time">{{ file.uploadTime }}</td>
+                <td class="content-btn-group" id="content-operate">
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="download"
+                        @click="download(file.hash)">下载</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="rename"
+                        @click="clickRename(file.hash, file.name)">重命名</button>
+                    <button type="button" class="btn btn-link link-danger" id="op-btn" data-func="remove"
+                        @click="removeFile(file.hash)">删除</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="share"
+                        v-if="!file.shared" @click="share(file.hash)">分享</button>
+                    <button type="button" class="btn btn-link link-primary" id="op-btn" data-func="unshare"
+                        v-if="file.shared" @click="unshare(file.hash)">取消分享</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

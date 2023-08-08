@@ -1,0 +1,63 @@
+{
+    "name": "casual-drive",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "npm run dev:init",
+        "start": "node app.js",
+        "start:init": "npm run init && node app.js",
+        "dev": "set NODE_ENV=development && concurrently --kill-others \"webpack serve\" \"nodemon app.js\"",
+        "dev:init": "set NODE_ENV=development && concurrently --kill-others \"webpack serve\" \"npm run init && nodemon app.js\"",
+        "build": "webpack",
+        "build:dev": "set NODE_ENV=development && webpack",
+        "init": "node init.js",
+        "reconfigure": "node reconfigure.js --auto"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "busboy": "^1.6.0",
+        "colors": "^1.4.0",
+        "crypto-js": "^4.1.1",
+        "ejs": "^3.1.9",
+        "koa": "^2.14.2",
+        "koa-bodyparser": "^4.4.1",
+        "koa-router": "^12.0.0",
+        "koa-static": "^5.0.0",
+        "koa-views": "^8.1.0",
+        "log4js": "^6.9.1",
+        "querystring": "^0.2.1",
+        "sm-crypto": "^0.3.12",
+        "sqlite3": "^5.1.6"
+    },
+    "engines": {
+        "node": ">= 16.18.0"
+    },
+    "browserslist": [
+        "> 0.25%",
+        "not dead"
+    ],
+    "devDependencies": {
+        "@babel/core": "^7.22.9",
+        "@babel/preset-env": "^7.22.9",
+        "babel-loader": "^9.1.3",
+        "clean-webpack-plugin": "^4.0.0",
+        "concurrently": "^8.2.0",
+        "css-loader": "^6.8.1",
+        "css-minimizer-webpack-plugin": "^5.0.1",
+        "html-minifier-terser": "^7.2.0",
+        "koa-server-http-proxy": "^0.1.0",
+        "mini-css-extract-plugin": "^2.7.6",
+        "nodemon": "^3.0.1",
+        "sass": "^1.63.6",
+        "sass-loader": "^13.3.2",
+        "style-loader": "^3.3.3",
+        "terser-webpack-plugin": "^5.3.9",
+        "vue": "^3.3.4",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
+    }
+}
