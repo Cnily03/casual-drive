@@ -61,7 +61,12 @@ function copyJSON(obj) {
 
     for (const key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            copy[key] = copyJSON(obj[key]);
+            Object.defineProperty(copy, key, {
+                value: copyJSON(obj[key]),
+                enumerable: true,
+                writable: true,
+                configurable: true
+            });
         }
     }
 
@@ -73,6 +78,7 @@ const mergeJSON = function (target, patch, deep = false) {
     if (!target) target = {}
     if (deep) { target = copyJSON(target), patch = copyJSON(patch); }
     for (let key in patch) {
+        if (key === "__proto__" || key === "constructor" || key === "prototype") continue;
         if (isJSON(patch[key]) && isJSON(target[key]))
             target[key] = mergeJSON(target[key], patch[key]);
         else {
