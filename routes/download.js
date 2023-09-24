@@ -105,7 +105,8 @@ router.get("/download/drive/:md5", async (ctx, next) => {
     filename = filename.replace(/[\\\/\:\*\"\'\<\>\|\?\x00-\x1F\x7F]/gi, "_")
 
     ctx.set("Content-Disposition", `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`);
-    ctx.body = fs.createReadStream(path.resolve(CONFIG.storage_path, hash))
+    // ctx.body = fs.createReadStream(path.resolve(CONFIG.storage_path, hash))
+    await ctx.sendFile(path.resolve(CONFIG.storage_path, hash))
 })
 
 module.exports = router;

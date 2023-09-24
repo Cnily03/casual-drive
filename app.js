@@ -9,6 +9,7 @@ const devOnly = (fn) => isEnvDev ? fn : undefined
 
 const path = require("path");
 const Koa = require("koa");
+const FileSender = require("./components/middleware/file-sender")
 const Session = require("./components/middleware/session")
 const bodyParser = require('koa-bodyparser');
 const Views = require("koa-views");
@@ -19,6 +20,9 @@ const app = new Koa();
 app.logger = global.logger = logger;
 module.exports = app;
 
+
+// file sender
+app.use(FileSender)
 
 // session
 app.use(Session({
