@@ -7,7 +7,7 @@
 Insatll dependencies
 
 ```bash
-npm i
+npm i --production
 ```
 
 Specify some configuration in `config.js`, then init the environment
