@@ -1,6 +1,6 @@
 const database = require("./database")
 const CONFIG = require("../../runtime.config.json");
-const logger = require("../../app").logger.setPrefix("DB", "blue", "bold");
+const logger = global.logger.setPrefix("DB", "blue", "bold");
 const crypto = require("./crypto");
 
 const db = {

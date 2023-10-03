@@ -4,7 +4,7 @@ const database = require("../../components/utils/database");
 const crypto = require("../../components/utils/crypto");
 const { generateToken } = require("../../components/utils/session");
 const CONFIG = require("../../runtime.config.json");
-const logger = require("../../app").logger.setPrefix("ACCOUNT");
+const logger = global.logger.setPrefix("ACCOUNT");
 const { UserUtil, LogEventUtil } = require("../../components/utils/database.utilities");
 const Res = require("../../components/utils/response");
 

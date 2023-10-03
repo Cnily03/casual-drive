@@ -1,5 +1,5 @@
 const { RequestDefender, ResponseDefender } = require("../defender");
-const logger = require("../../../app").logger;
+const logger = global.logger;
 
 module.exports = ResponseDefender(async (ctx, next) => {
     const method = ctx.request.method.toUpperCase();

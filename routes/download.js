@@ -7,7 +7,7 @@ const { DriveUtil } = require("../components/utils/database.utilities");
 const fs = require("fs");
 const path = require("path");
 const { verifySession } = require("../components/utils/session");
-const logger = require("../app").logger;
+const logger = global.logger;
 
 router.get("/download/drive/:md5", async (ctx, next) => {
     let dl_md5 = typeof ctx.params.md5 === "string" ? ctx.params.md5.replace(/\-/g, "") : undefined;

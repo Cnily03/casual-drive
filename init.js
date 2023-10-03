@@ -99,7 +99,9 @@ Promise.all([
     /** Basic normalization */
 
     (async () => {
-        if (CONFIG.storage_path.startsWith("."))
+        if (DefaultConfig.storage_path && DefaultConfig.storage_path.startsWith("."))
+            DefaultConfig.storage_path = path.resolve(DefaultConfig.storage_path)
+        if (CONFIG.storage_path && CONFIG.storage_path.startsWith("."))
             CONFIG.storage_path = path.resolve(CONFIG.storage_path)
     })(),
 

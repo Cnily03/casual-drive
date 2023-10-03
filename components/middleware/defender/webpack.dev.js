@@ -1,4 +1,4 @@
-const logger = require("../../../app").logger;
+const logger = global.logger;
 const koaServerHttpProxy = require("koa-server-http-proxy");
 const WEBPACK_PORT = require("../../../runtime.config.json").webpack_dev_port;
 
