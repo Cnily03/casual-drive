@@ -21,7 +21,7 @@
                 <td colspan="5" style="font-style: italic; text-align: center;">没有分享的文件</td>
             </tr>
             <tr v-for="file in files" v-if="files.length" v-show="files.length" style="display: none;">
-                <td class="content-name" id="content-name" @mouseover="tooltipName">{{ file.name }}</td>
+                <td class="content-name" id="content-name" @mouseover="tooltipTd">{{ file.name }}</td>
                 <td class="content-size" id="content-size">{{ file.size }}</td>
                 <td class="content-time" id="content-share-time">{{ file.shareTime }}</td>
                 <td class="content-username" id="content-uploader" @mouseover="tooltipTd">{{ file.uploader }}</td>

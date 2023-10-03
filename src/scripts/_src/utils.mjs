@@ -77,10 +77,11 @@ export const querystring = {
 export const sizeWithWeight = (size) => {
     if (isNaN(size) || size <= 0) return "0"
     let weight = 'Bytes'
-    if (size <= 1) size = Math.round(size * 100) / 100, weight = 'bits'
+    if (size < 1000) size = Math.round(size * 100) / 100, weight = 'Bytes'
     if (size >= 1000) size = Math.round(size / 1024 * 100) / 100, weight = 'KB'
     if (size >= 1000) size = Math.round(size / 1024 * 100) / 100, weight = 'MB'
     if (size >= 1000) size = Math.round(size / 1024 * 100) / 100, weight = 'GB'
     if (size >= 1000) size = Math.round(size / 1024 * 100) / 100, weight = 'TB'
+    size = size.toString().replace(/(\.\d)$/g, "$10")
     return `${size} ${weight}`
 }
