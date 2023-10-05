@@ -15,7 +15,7 @@ router.post("/api/action/dl/:zone/:requestType", async (ctx, next) => {
     if (!["myresources", "sharezone"].includes(zone)) return next()
     if (!["link", "sign"].includes(requestType)) return next()
 
-    const SIGN_HASH_LEN = 16, SHORT_MD5 = true
+    const SIGN_HASH_LEN = 16, DL_HASH_MODE = "hash"
 
     const { uid, hash, filename, age } = ctx.request.body
     const tokenUID = ctx.session.get("uid")
@@ -64,15 +64,30 @@ router.post("/api/action/dl/:zone/:requestType", async (ctx, next) => {
 
     if (requestType === "link") {
         try {
-            let file_md5 = (await DriveUtil.getFileInfo(hash, "hash")).md5
-            file_md5 = SHORT_MD5 ? file_md5.substring(8, 24) : file_md5
-            if (file_md5.length === 16)
-                file_md5 = file_md5.substring(0, 4) + "-" + file_md5.substring(4, 11) + "-" + file_md5.substring(11, 16)
-            else
-                file_md5 = file_md5.substring(0, 4) + "-" + file_md5.substring(4, 10) + file_md5.substring(10, 16) + file_md5.substring(16, 26) + file_md5.substring(26, 32)
+            let hash_type = DL_HASH_MODE
+            let file_dl_hash
+            if (hash_type === "md5_16" || hash_type === "md5_32") {
+                let full_file_md5 = (await DriveUtil.getFileInfo(hash, "hash")).md5
+                let short_file_md5 = full_file_md5.substring(8, 24)
+                if (hash_type === "md5_16") {
+                    file_dl_hash = short_file_md5
+                    const IS_SHORT_MD5_CONFLICT = (await DriveUtil.getAllFileInfo(short_file_md5, "md5_16")).length > 1
+                    if (IS_SHORT_MD5_CONFLICT) hash_type = "md5_32"
+                }
+                if (hash_type === "md5_32") {
+                    file_dl_hash = full_file_md5
+                    const IS_FULL_MD5_CONFLICT = (await DriveUtil.getAllFileInfo(full_file_md5, "md5_32")).length > 1
+                    if (IS_FULL_MD5_CONFLICT) hash_type = "hash"
+                }
+            }
+            if (hash_type === "hash") file_dl_hash = hash
+
+            if (file_dl_hash.length === 32)
+                file_dl_hash = file_dl_hash.substring(0, 8) + "-" + file_dl_hash.substring(8, 12) + "-" + file_dl_hash.substring(12, 16) + "-" + file_dl_hash.substring(16, 20) + "-" + file_dl_hash.substring(20, 32)
+
             return Res.Success(ctx, {
                 data: {
-                    uri: `/download/drive/${file_md5}` +
+                    uri: `/download/drive/${file_dl_hash}` +
                         `?sign=${signature.replace(/\+/g, "%2B")}`
                 }
             })

@@ -124,11 +124,17 @@ const LogEventUtil = {
 /**
  * Retrieve file information from the database based on the provided hash or md5 value.
  * @param {string} v - The hash or md5 value of the file to retrieve information for.
- * @param {"hash" | "md5" | "md5_32" | "md5_16"} [type="hash"] - The type of value provided (either "hash" or "md5").
+ * @param {"auto" | "hash" | "md5" | "md5_32" | "md5_16"} [type="auto"] - The type of value provided (either "hash" or "md5").
  * @returns {Promise<Object|null>} - Returns an object containing file information if found, or null if not found.
  */
-async function getFileInfo(v, type = "hash") {
+async function getFileInfo(v, type = "auto") {
     let query_args;
+    if (type === "auto") {
+        if (v.length === 64) type = "hash";
+        else if (v.length === 32) type = "md5_32";
+        else if (v.length === 16) type = "md5_16";
+        else throw new Error("Invalid hash or md5 length");
+    }
     if (type === "md5") {
         if (v.length === 32) type = "md5_32";
         else if (v.length === 16) type = "md5_16";
@@ -151,11 +157,17 @@ async function getFileInfo(v, type = "hash") {
 /**
  * Retrieve file information from the database based on the provided hash or md5 value.
  * @param {string} v - The hash or md5 value of the file to retrieve information for.
- * @param {"hash" | "md5" | "md5_32" | "md5_16"} [type="hash"] - The type of value provided (either "hash" or "md5").
+ * @param {"auto" | "hash" | "md5" | "md5_32" | "md5_16"} [type="auto"] - The type of value provided (either "hash" or "md5").
  * @returns {Promise<Object[]>} - Returns an array of the object containing file information if found.
  */
-async function getAllFileInfo(v, type = "hash") {
+async function getAllFileInfo(v, type = "auto") {
     let query_args;
+    if (type === "auto") {
+        if (v.length === 64) type = "hash";
+        else if (v.length === 32) type = "md5_32";
+        else if (v.length === 16) type = "md5_16";
+        else throw new Error("Invalid hash or md5 length");
+    }
     if (type === "md5") {
         if (v.length === 32) type = "md5_32";
         else if (v.length === 16) type = "md5_16";

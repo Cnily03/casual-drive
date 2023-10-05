@@ -46,16 +46,16 @@ const rndStr = function (length, options = ALPHABET.VISIBLE) {
     }
 
     let ensurelist = []
-    for (let key in opts.ensure) {
-        opts.ensure[key].repeat = typeof opts.ensure[key].repeat === "boolean" ? opts.ensure[key].repeat : false
-        const { pattern, count } = opts.ensure[key];
+    for (let ensure_val of opts.ensure) {
+        ensure_val.repeat = typeof ensure_val.repeat === "boolean" ? ensure_val.repeat : false
+        const { pattern, count } = ensure_val;
         // remove charactors not existing in alphabet and remove repeat charactors
         let charlist = Array.from(new Set(pattern.split("").filter(c => opts.alphabet.includes(c)))).join("")
         let cnt = count
         while (cnt--) {
             const char = charlist[Math.floor(Math.random() * charlist.length)]
             ensurelist.push(char)
-            if (!opts.ensure[key].repeat) charlist = charlist.replace(char, "")
+            if (!ensure_val.repeat) charlist = charlist.replace(char, "")
         }
     }
     let autolen = length - ensurelist.length

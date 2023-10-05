@@ -9,11 +9,11 @@ const path = require("path");
 const { verifySession } = require("../components/utils/session");
 const logger = global.logger;
 
-router.get("/download/drive/:md5", async (ctx, next) => {
-    let dl_md5 = typeof ctx.params.md5 === "string" ? ctx.params.md5.replace(/\-/g, "") : undefined;
+router.get("/download/drive/:hash", async (ctx, next) => {
+    let dl_hash = typeof ctx.params.hash === "string" ? ctx.params.hash.replace(/\-/g, "") : undefined;
     const signaure = ctx.query.sign;
 
-    if (typeof dl_md5 !== "string" || typeof signaure !== "string" || (dl_md5.length !== 16 && dl_md5 !== 32)) {
+    if (typeof dl_hash !== "string" || typeof signaure !== "string" || (dl_hash.length !== 16 && dl_hash.length !== 32 && dl_hash.length !== 64)) {
         // invalid params or query
         ctx.set("X-Error-Reason", "Invalid Params");
         ctx.status = 400; // Bad Request
@@ -36,7 +36,7 @@ router.get("/download/drive/:md5", async (ctx, next) => {
 
     let IS_FILE_EXIST_IN_GLOBAL, full_hash_lists
     try {
-        full_hash_lists = (await DriveUtil.getAllFileInfo(dl_md5, "md5")).map(v => v.hash)
+        full_hash_lists = (await DriveUtil.getAllFileInfo(dl_hash, "auto")).map(v => v.hash)
         IS_FILE_EXIST_IN_GLOBAL = full_hash_lists.length > 0
     } catch (e) {
         ctx.set("X-Error-Reason", "Internal Server Error");

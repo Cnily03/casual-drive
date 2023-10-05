@@ -17,11 +17,11 @@ const CONFIG = require("../../runtime.config.json");
  * @returns {string} The signed text.
  */
 function genRawFileSignature(raw_text, { pteKey, xorKey } = CONFIG.download_signature.SM2) {
-    let rndsalt = crypto.rndStr(raw_text.length >= 8 ? raw_text.length / 2 : 4, crypto.ALPHABET.ALL_ASCII)
+    let rndsalt = crypto.rndStr(3 + raw_text.length % 4, crypto.ALPHABET.ALL_ASCII)
         .replace(/\.|\{|\}/g, crypto.rndStr(1, crypto.ALPHABET.UN_VISIBLE));
     let text = raw_text + "." + rndsalt;
     let signature = crypto.sm2.sign(text, pteKey);
-    let rnd_xor_key = crypto.rndStr(text.length >= 9 ? text.length / 3 : 3, crypto.ALPHABET.ALL_ASCII)
+    let rnd_xor_key = crypto.rndStr(4 + text.length % 3, crypto.ALPHABET.ALL_ASCII)
         .replace(/\./g, crypto.rndStr(1, crypto.ALPHABET.UN_VISIBLE));
 
     return crypto.base64.encode(rnd_xor_key + "." + crypto.xor(text, rnd_xor_key, true)) +
