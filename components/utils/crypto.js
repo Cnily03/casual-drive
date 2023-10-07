@@ -87,8 +87,8 @@ const rndStr = function (length, options = ALPHABET.VISIBLE) {
 }
 
 /**
- * @param {string | Buffer | ArrayBuffer} data 
- * @param {string | Buffer | ArrayBuffer} key 
+ * @param {string | Buffer | ArrayBuffer} data
+ * @param {string | Buffer | ArrayBuffer} key
  */
 const xor = function (data, key, returnBuffer = false) {
     const dataBuf = Buffer.from(data, "utf8");
@@ -102,11 +102,12 @@ const xor = function (data, key, returnBuffer = false) {
 
 const base64 = {
     /**
-     * @param {string | Buffer | ArrayBuffer} data 
+     * @param {string | Buffer | ArrayBuffer} data
+     * @param {boolean} removeEqual
      */
-    encode: function (data) {
+    encode: function (data, removeEqual = false) {
         const code = Buffer.from(data, 'utf-8').toString('base64');
-        return code;
+        return removeEqual ? code.replace(/=/g, "") : code;
     },
     /**
      * @param {string} str

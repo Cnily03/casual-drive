@@ -21,7 +21,7 @@ function signText(text, { pteKey, xorKey }) {
         .replace(/\.|\{|\}/g, crypto.rndStr(1, crypto.ALPHABET.UN_VISIBLE));
     text = text + "." + rndsalt;
     let signature = crypto.sm2.sign(text, pteKey);
-    return crypto.base64.encode(text) + "." + crypto.base64.encode(crypto.xor(signature, xorKey, true));
+    return crypto.base64.encode(text, true) + "." + crypto.base64.encode(crypto.xor(signature, xorKey, true), true);
 }
 
 function verifySign(text, { pubKey, xorKey }) {
