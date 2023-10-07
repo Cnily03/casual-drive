@@ -55,9 +55,6 @@ app.use(Views(path.join(__dirname, isEnvDev ? "./views" : "./views.prod"), {
     extension: 'ejs'
 }));
 
-// static
-app.use(require('koa-static')(path.join(__dirname, './static')));
-
 // defender
 [
     devOnly("webpack.dev"),
@@ -76,6 +73,13 @@ app.use(require('koa-static')(path.join(__dirname, './static')));
     "api/action/drive",
     "api/action/download",
     "download",
+].forEach(p => { p = require("./routes/" + p); app.use(p.routes()).use(p.allowedMethods()) });
+
+// static
+app.use(require('koa-static')(path.join(__dirname, './static')));
+
+// routes
+[
     "_fallback"
 ].forEach(p => { p = require("./routes/" + p); app.use(p.routes()).use(p.allowedMethods()) });
 

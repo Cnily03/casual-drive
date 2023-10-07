@@ -4,6 +4,7 @@ const logger = global.logger;
 module.exports = ResponseDefender(async (ctx, next) => {
     const method = ctx.request.method.toUpperCase();
     const urlpath = ctx.request.path;
+    const contentType = ctx.response.get("Content-Type");
     let _ip = ctx.request.socket.remoteAddress;
 
     if (_ip === "::1") {
@@ -18,12 +19,20 @@ module.exports = ResponseDefender(async (ctx, next) => {
     const ip = _ip + (ctx.request.socket.remotePort ? (":" + ctx.request.socket.remotePort) : "");
 
     const query = method === "GET" ? ctx.request.querystring : ctx.request.rawBody;
+    const colorQuery = (_query) => {
+        return (_query.length > 256) ?
+            `[${Buffer.from(_query).byteLength} Bytes]`.blue :
+            _query.yellow
+    }
+
     const status = ctx.response.status;
     if (![
-        /\.(js|css|png|jpeg)$/,
-        /\.[^\.]{1,4}$/
-    ].map(e => (typeof e === "string" ? RegExp(`^${e}$`) : e).test(urlpath)).includes(true))
-        logger.info(
-            `${method.cyan.bold} ${String(status).yellow} ${urlpath.green} - FROM ${ip.magenta}` + (query ? ` - ${method === "GET" ? "QUREY" : "BODY"} ${query.yellow}` : '')
-        );
+        "application/javascript",
+        "text/css",
+    ].some(e => (typeof e === "string" ? RegExp(`^${e}$`) : e).test(contentType)))
+        logger.info([
+            `${method.cyan.bold} ${String(status).yellow} ${urlpath.green}`,
+            `FROM ${ip.magenta}`,
+            (query ? `${method === "GET" ? "QUREY" : "BODY"} ${colorQuery(query)}` : undefined)
+        ].filter(s => typeof s === "string").join(" - "));
 })

@@ -103,7 +103,7 @@ router.post("/api/account/logout", async (ctx, next) => {
     if (ctx.session.get("token")) {
         logger.info(`[-] Log out: ${("UID " + ctx.session.get("uid")).cyan} who is ${ctx.session.get("username").cyan}`);
         ctx.session.destroy();
-        ctx.cookies.set("uid", "", { maxAge: 0 });
+        ctx.cookies.set("uid", "");
         return Res.Success(ctx, {
             redirect: ctx.request.body["redirect"] || ctx.origin + "/account/signin"
         })

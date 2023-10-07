@@ -25,11 +25,11 @@
         "koa": "^2.14.2",
         "koa-bodyparser": "^4.4.1",
         "koa-router": "^12.0.0",
-        "koa-send": "^5.0.1",
         "koa-static": "^5.0.0",
         "koa-views": "^8.1.0",
         "log4js": "^6.9.1",
         "querystring": "^0.2.1",
+        "resolve-path": "^1.4.0",
         "sm-crypto": "^0.3.12",
         "sqlite3": "^5.1.6"
     },

@@ -137,13 +137,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     let downloadRequestHashPool = []; // 下载请求哈希池，用于防止同一时间对同一hash的重复请求
     let storeRequestHashPool = []; // 存储请求哈希池，用于防止同一时间对同一hash的重复请求
     let shareRequestHashPool = []; // 分享请求哈希池，用于防止同一时间对同一hash的重复请求
-    const __data = (await getData().catch(e => _onUpdateList = false)).data.reverse()
     _onUpdateList = false
-    createApp({
+    const app = createApp({
         data() {
             return {
                 logged: _logged,
-                files: __data
+                files: []
             }
         },
         methods: {
@@ -158,6 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 else {
                     if (!preventSuccessToast) Toast.single("刷新成功", "success")
                     this.files = res.data.reverse()
+                    this.logged = res.logged
                 }
 
                 _onUpdateList = false
@@ -324,4 +324,5 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
     }).mount("#resourcelist-app")
+    app.updateList(true)
 })
