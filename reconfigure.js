@@ -19,10 +19,9 @@ function mergeJSON(target, source) {
     return target
 }
 
-function reconfigure(autoinit = false) {
+function reconfigure() {
     if (!fs.existsSync('./runtime.config.json')) {
-        if (autoinit) require('./init')
-        else throw new Error('No runtime configuration file not found. Please run `'.red + "npm run init".cyan + '` to initialize first.'.red)
+        throw new Error('No runtime configuration file not found. Please run `'.red + "npm run init".cyan + '` to initialize first.'.red)
     }
     const runtimeConfig = require('./runtime.config.json')
     const config = require('./config.js')
@@ -30,13 +29,15 @@ function reconfigure(autoinit = false) {
     fs.writeFileSync(path.resolve("./runtime.config.json"), JSON.stringify(newConfig, null, 4));
 }
 
-if (args[0] === '--auto') {
-    if (!fs.existsSync('./runtime.config.json')) {
-        console.log('No runtime configuration file not found. Start initializing...\n')
-        require('./init')
-    } else {
-        reconfigure()
-        console.log('Reconfiguration successfully!')
+if (require.main.filename === __filename) {
+    if (args[0] === '--auto') {
+        if (!fs.existsSync('./runtime.config.json')) {
+            console.log('No runtime configuration file not found. Start initializing...\n')
+            require('./init').init()
+        } else {
+            reconfigure()
+            console.log('Reconfiguration successfully!')
+        }
     }
 }
 
