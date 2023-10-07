@@ -241,9 +241,9 @@ async function init() {
 
         /** Clean `storage` directory */
         (async function () {
-            logger.info("Cleaning " + "./storage".cyan + "...")
-            await execSync("rm -rf ./storage")
-            fs.mkdirSync("./storage")
+            logger.info("Cleaning " + `${CONFIG.storage_path}`.cyan + "...")
+            await execSync(`rm -rf ${CONFIG.storage_path}`)
+            fs.mkdirSync(`${CONFIG.storage_path}`)
         })(),
 
         /** Init Session Keys */
