@@ -118,12 +118,12 @@ router.post("/api/action/drive/upload/check", async (ctx, next) => {
             let nowTimeStamp = Date.now();
             try {
                 let _fn = await getUnrepeatedFilename(uid, fn);
-                await DriveUtil.insertUserFile(uid, hash, fn, nowTimeStamp, false, false);
+                await DriveUtil.insertUserFile(uid, hash, _fn, nowTimeStamp, false, false);
                 autoupRes = {
                     uploaded: true,
                     msg: "上传成功",
                     data: {
-                        name: fn,
+                        name: _fn,
                         hash: hash,
                         size: FileInfo.size / 8,
                         uploadTime: nowTimeStamp,
