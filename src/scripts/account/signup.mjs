@@ -64,7 +64,7 @@ import { MD5 } from "crypto-js"
         if (!PW_RULE.test(password))
             return TIP.show("密码不合法", "warn");
         if (password.length < 6 || password.length > 18)
-            return TIP.show("密码长度必须为3-10个字符", "warn");
+            return TIP.show("密码长度必须为6-18个字符", "warn");
         if (password !== repassword)
             return TIP.show("两次输入的密码不一致", "warn");
 
